@@ -52,6 +52,7 @@ z-index: 1000;                                /* Ensures it stays on top of othe
 
 # Footer
 st.markdown(
-    '<div style="{}">Developed by mirac | Contact at: mirac.eth@ethereum.email</div>'.format(footer_style),
+    '<div style="{}">Developed by Mirac.eth<br>Contact: mirac.eth@ethereum.email</div>'.format(footer_style),
     unsafe_allow_html=True
 )
+
