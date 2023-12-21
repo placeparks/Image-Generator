@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+import requests
 from dotenv import load_dotenv
 import openai
 
@@ -31,10 +32,30 @@ if st.button("Generate Image"):
         )
         
         # Display the generated image
+         # Get the image URL
         image_url = response.data[0].url
-        st.image(image_url, use_column_width=True)
+
+        # Download the image using requests
+        image_response = requests.get(image_url)
+        if image_response.status_code == 200:
+            # Display the generated image
+            st.image(image_url, use_column_width=True)
+
+            # Convert the image response content to a byte stream
+            image_bytes = image_response.content
+
+            # Create a download button for the image
+            st.download_button(
+                label="Download Image",
+                data=image_bytes,
+                file_name="generated_image.png",
+                mime="image/png"
+            )
+        else:
+            st.error("Failed to fetch the image.")
     else:
         st.warning("Please enter a prompt")
+
 
 # Add custom CSS for footer
 footer_style = """
@@ -55,4 +76,3 @@ st.markdown(
     '<div style="{}">Developed by Mirac.eth<br>Contact: mirac.eth@ethereum.email</div>'.format(footer_style),
     unsafe_allow_html=True
 )
-
